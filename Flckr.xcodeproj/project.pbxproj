@@ -16,6 +16,7 @@
 		B999D99B1A15326800912AC5 /* FlckrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D99A1A15326800912AC5 /* FlckrTests.swift */; };
 		B999D9A51A1536AA00912AC5 /* DataManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D9A41A1536AA00912AC5 /* DataManagement.swift */; };
 		B999D9A71A153DED00912AC5 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D9A61A153DED00912AC5 /* Network.swift */; };
+		B999D9AA1A1543FF00912AC5 /* FlickrFeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D9A91A1543FF00912AC5 /* FlickrFeedScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		B999D99A1A15326800912AC5 /* FlckrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlckrTests.swift; sourceTree = "<group>"; };
 		B999D9A41A1536AA00912AC5 /* DataManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
 		B999D9A61A153DED00912AC5 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		B999D9A91A1543FF00912AC5 /* FlickrFeedScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrFeedScreen.swift; sourceTree = "<group>"; };
+		B999D9AB1A154AEB00912AC5 /* Network Call.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Network Call.playground"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +68,7 @@
 		B999D9731A15326800912AC5 = {
 			isa = PBXGroup;
 			children = (
+				B999D9AB1A154AEB00912AC5 /* Network Call.playground */,
 				B999D97E1A15326800912AC5 /* Flckr */,
 				B999D9971A15326800912AC5 /* FlckrTests */,
 				B999D97D1A15326800912AC5 /* Products */,
@@ -84,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				B999D9811A15326800912AC5 /* AppDelegate.swift */,
+				B999D9A91A1543FF00912AC5 /* FlickrFeedScreen.swift */,
 				B999D9A41A1536AA00912AC5 /* DataManagement.swift */,
 				B999D9A61A153DED00912AC5 /* Network.swift */,
 				B999D9861A15326800912AC5 /* ViewController.swift */,
@@ -221,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B999D9AA1A1543FF00912AC5 /* FlickrFeedScreen.swift in Sources */,
 				B999D9A71A153DED00912AC5 /* Network.swift in Sources */,
 				B999D9871A15326800912AC5 /* ViewController.swift in Sources */,
 				B999D9851A15326800912AC5 /* Flckr.xcdatamodeld in Sources */,

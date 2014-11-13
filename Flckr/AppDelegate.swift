@@ -9,11 +9,16 @@
 import UIKit
 import CoreData
 
+let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+
+// AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedAppliction] delegate];
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var serviceLocator: ServiceLocator = ServiceLocator()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         return true
@@ -34,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         self.saveContext()
     }
-    
     
     
 
@@ -94,5 +98,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+
+class ServiceLocator : NSObject {
+    var injectedDataManager: DataManager
+    var injectedNetworkManager: NetworkManager
+    
+    private override init() {
+        injectedDataManager = DataManager()
+        injectedNetworkManager = NetworkManager()
+    }
+    
+    func activeDataManager() -> DataManager {
+        return injectedDataManager
+    }
+    
+    func activeNetworkManager() -> NetworkManager {
+        return injectedNetworkManager
+    }
 }
 

@@ -11,8 +11,6 @@ import Foundation
 
 class DataManager: NSObject {
     var currentlyImportedFeedItems: [FlickrFeedItem]?
-    
-    
 }
 
 
