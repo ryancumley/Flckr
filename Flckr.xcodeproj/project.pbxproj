@@ -14,6 +14,8 @@
 		B999D98C1A15326800912AC5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B999D98B1A15326800912AC5 /* Images.xcassets */; };
 		B999D98F1A15326800912AC5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B999D98D1A15326800912AC5 /* LaunchScreen.xib */; };
 		B999D99B1A15326800912AC5 /* FlckrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D99A1A15326800912AC5 /* FlckrTests.swift */; };
+		B999D9A51A1536AA00912AC5 /* DataManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D9A41A1536AA00912AC5 /* DataManagement.swift */; };
+		B999D9A71A153DED00912AC5 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B999D9A61A153DED00912AC5 /* Network.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		B999D9941A15326800912AC5 /* FlckrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlckrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B999D9991A15326800912AC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B999D99A1A15326800912AC5 /* FlckrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlckrTests.swift; sourceTree = "<group>"; };
+		B999D9A41A1536AA00912AC5 /* DataManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
+		B999D9A61A153DED00912AC5 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				B999D9811A15326800912AC5 /* AppDelegate.swift */,
+				B999D9A41A1536AA00912AC5 /* DataManagement.swift */,
+				B999D9A61A153DED00912AC5 /* Network.swift */,
 				B999D9861A15326800912AC5 /* ViewController.swift */,
 				B999D9881A15326800912AC5 /* Main.storyboard */,
 				B999D98B1A15326800912AC5 /* Images.xcassets */,
@@ -215,8 +221,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B999D9A71A153DED00912AC5 /* Network.swift in Sources */,
 				B999D9871A15326800912AC5 /* ViewController.swift in Sources */,
 				B999D9851A15326800912AC5 /* Flckr.xcdatamodeld in Sources */,
+				B999D9A51A1536AA00912AC5 /* DataManagement.swift in Sources */,
 				B999D9821A15326800912AC5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
