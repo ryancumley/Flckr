@@ -29,16 +29,11 @@ func vanillaConfiguration() -> NSURLSessionConfiguration {
     
     return sessionConfiguration
 }
+//MARK:-
 
 
 
-
-
-
-
-
-//MARK: Abstract and Concrete FetchFeedCall
-
+//MARK: Abstract FetchFeedCall Config
 protocol NetworkFetchOperation {
     func start()
     func finish()
@@ -101,7 +96,7 @@ class AbstractFetchFeedCall: NSObject, NetworkFetchOperation, FlickrFetchOperati
 }
 
 
-
+//MARK: Concrete Calls
 class StandardFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, ConcreteNetworkFetchOperation {
     
     override init() {

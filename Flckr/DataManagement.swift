@@ -54,13 +54,7 @@ class DataManager: NSObject {
         return NSData()
     }
 }
-
-
-
-
-
-
-
+//MARK:-
 
 
 

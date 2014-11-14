@@ -11,6 +11,8 @@ import UIKit
 
 
 class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate {
+
+    //MARK: Search Input and Execution Handling
     func displayQueryStatusInSectionHeader(#status: String) {
         (tableView.dataSource as FlickrFeedTableViewDataSource).useThisQueryStatus(status: status)
         reloadTableDataOnMainThread()
@@ -31,6 +33,8 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     
+    
+    
     //MARK: TextField Handling
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -44,6 +48,7 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
         }
     }
 }
+//MARK:-
 
 
 
@@ -58,6 +63,9 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     var currentFetch: protocol<NetworkFetchOperation, FlickrFetchOperation>?
     
     
+
+
+    //MARK: Protocol methods
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return queryStatusString
     }
@@ -80,6 +88,7 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     
     
     
+    //MARK: Making and Handling requests
     func makeNewOutboundRequest(queryString query: String) {
         invalidateAnyInFlightRequests()
         composeNewFetchFeedCall(queryString: query)
