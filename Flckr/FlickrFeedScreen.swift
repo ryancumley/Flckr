@@ -11,15 +11,24 @@ import UIKit
 
 
 class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate {
+    func displayQueryStatusInSectionHeader(#status: String) {
+        (tableView.dataSource as FlickrFeedTableViewDataSource).useThisQueryStatus(status: status)
+        reloadTableDataOnMainThread()
+    }
     
     func resetUIToSearchingState(searchQuery query: String) {
-        //display what we're searching for
+        let searchingIndicator = "Hang tight, we're searching Flickr for \(query)"
+        displayQueryStatusInSectionHeader(status: searchingIndicator)
     }
     
     func updateUIToResultsFoundState() {
-        dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
+        (tableView.dataSource as FlickrFeedTableViewDataSource).useThisQueryStatus(status: "")
+        reloadTableDataOnMainThread()
     }
     
+    func reloadTableDataOnMainThread() {
+        dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
+    }
     
     
     //MARK: TextField Handling
@@ -42,6 +51,7 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     var networkManager = appDelegate.serviceLocator.injectedNetworkManager
     var dataManager = appDelegate.serviceLocator.injectedDataManager
     var feedItemsForDisplay = [FlickrFeedItem]()
+    var queryStatusString = ""
     
     @IBOutlet var owningTableViewController: FlickrFeedTableViewController?
     
@@ -49,8 +59,7 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        return "Not the real Title"
+        return queryStatusString
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -92,6 +101,10 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     func refreshDataSource() {
         feedItemsForDisplay = dataManager.currentlyImportedFeedItems
         owningTableViewController?.updateUIToResultsFoundState()
+    }
+    
+    func useThisQueryStatus(#status: String) {
+        queryStatusString = status
     }
 }
 
