@@ -13,22 +13,31 @@ class DataManager: NSObject {
     var currentlyImportedFeedItems = [FlickrFeedItem]()
     
     func processPotentialFeedItemCandidates(rawDataResponse data: NSData, completionHandler: () -> ()) {
+        clearAllCurrentlyStoredFeedItems()
         var serializationError: NSError?
         let parsableData = parsableDataFromRawFlickrData(rawData: data)
         if let foundationRepresentation = NSJSONSerialization.JSONObjectWithData(parsableData, options: NSJSONReadingOptions.AllowFragments, error: &serializationError) as? [String: AnyObject] {
             if let justTheItems = foundationRepresentation["items"]? as? [[String: AnyObject]] {
-                clearAllCurrentlyStoredFeedItems()
                 for item in justTheItems {
                     let mappedItem = FlickrFeedItem.feedItemByMappingInput(inputDictionary: item)
                     currentlyImportedFeedItems.append(mappedItem)
+                    println(mappedItem.title)
                 }
             }
         }
+        
+        if currentlyImportedFeedItems.count == 0 { handleZeroResultQueryResponse() }
         completionHandler()
     }
     
     private func clearAllCurrentlyStoredFeedItems() {
         currentlyImportedFeedItems = [FlickrFeedItem]()
+    }
+    
+    private func handleZeroResultQueryResponse() {
+        let item = FlickrFeedItem()
+        item.title = "No Results Matched that Tag"
+        currentlyImportedFeedItems.append(item)
     }
     
     private func parsableDataFromRawFlickrData(#rawData: NSData) -> NSData {

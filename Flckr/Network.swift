@@ -146,7 +146,6 @@ class GermanFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, Co
     }
 }
 
-//class
 
 
 

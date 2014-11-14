@@ -17,7 +17,7 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     func updateUIToResultsFoundState() {
-        
+        dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
     }
     
     
@@ -43,10 +43,15 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     var dataManager = appDelegate.serviceLocator.injectedDataManager
     var feedItemsForDisplay = [FlickrFeedItem]()
     
-    @IBOutlet var owningTableView: UITableView?
     @IBOutlet var owningTableViewController: FlickrFeedTableViewController?
     
     var currentFetch: protocol<NetworkFetchOperation, FlickrFetchOperation>?
+    
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return "Not the real Title"
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -86,7 +91,6 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     
     func refreshDataSource() {
         feedItemsForDisplay = dataManager.currentlyImportedFeedItems
-        owningTableView?.reloadData()
         owningTableViewController?.updateUIToResultsFoundState()
     }
 }

@@ -85,7 +85,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6R-pP-99J" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="aUO-g7-6ak" userLabel="Data Source" customClass="FlickrFeedTableViewDataSource" customModule="Flckr" customModuleProvider="target">
                     <connections>
-                        <outlet property="owningTableView" destination="qT1-zc-wuW" id="qW4-gY-mfa"/>
                         <outlet property="owningTableViewController" destination="TsI-sb-2hr" id="Yhc-rh-LrG"/>
                     </connections>
                 </customObject>
