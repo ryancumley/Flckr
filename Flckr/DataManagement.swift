@@ -10,7 +10,40 @@ import Foundation
 
 
 class DataManager: NSObject {
-    var currentlyImportedFeedItems: [FlickrFeedItem]?
+    var currentlyImportedFeedItems = [FlickrFeedItem]()
+    
+    func processPotentialFeedItemCandidates(rawDataResponse data: NSData, completionHandler: () -> ()) {
+        var serializationError: NSError?
+        let parsableData = parsableDataFromRawFlickrData(rawData: data)
+        if let foundationRepresentation = NSJSONSerialization.JSONObjectWithData(parsableData, options: NSJSONReadingOptions.AllowFragments, error: &serializationError) as? [String: AnyObject] {
+            if let justTheItems = foundationRepresentation["items"]? as? [[String: AnyObject]] {
+                clearAllCurrentlyStoredFeedItems()
+                for item in justTheItems {
+                    let mappedItem = FlickrFeedItem.feedItemByMappingInput(inputDictionary: item)
+                    currentlyImportedFeedItems.append(mappedItem)
+                }
+            }
+        }
+        completionHandler()
+    }
+    
+    private func clearAllCurrentlyStoredFeedItems() {
+        currentlyImportedFeedItems = [FlickrFeedItem]()
+    }
+    
+    private func parsableDataFromRawFlickrData(#rawData: NSData) -> NSData {
+       //hat tip to http://stackoverflow.com/questions/8684667/nsjsonserialization for the basis of this Swift implementation
+        if let rawDataString = NSString(data: rawData, encoding: NSUTF8StringEncoding) {
+            if rawDataString.length > 0 {
+                let trimmedRawDataString = rawDataString.substringWithRange(NSMakeRange(15, rawDataString.length-15-1))
+                let properJSONString = trimmedRawDataString.stringByReplacingOccurrencesOfString("//", withString: "'")
+                if let parsableData = properJSONString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    return parsableData
+                }
+            }
+        }
+        return NSData()
+    }
 }
 
 

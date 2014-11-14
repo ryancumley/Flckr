@@ -10,21 +10,65 @@ import Foundation
 import UIKit
 
 
-class FlickrFeedTableViewController: UITableViewController {
+class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate {
+    
+    func resetUIToSearchingState(searchQuery query: String) {
+        //display what we're searching for
+    }
+    
+    func updateUIToResultsFoundState() {
+        
+    }
+    
+    
+    
+    //MARK: TextField Handling
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        if let newQuery = textField.text? {
+            resetUIToSearchingState(searchQuery: newQuery)
+            (tableView.dataSource as FlickrFeedTableViewDataSource).makeNewOutboundRequest(queryString: newQuery)
+        }
+    }
+}
+
+
+
+class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     var networkManager = appDelegate.serviceLocator.injectedNetworkManager
     var dataManager = appDelegate.serviceLocator.injectedDataManager
+    var feedItemsForDisplay = [FlickrFeedItem]()
+    
+    @IBOutlet var owningTableView: UITableView?
+    @IBOutlet var owningTableViewController: FlickrFeedTableViewController?
     
     var currentFetch: protocol<NetworkFetchOperation, FlickrFetchOperation>?
     
-    var textInputByUser: String = "kittens"
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
     
-    @IBOutlet var textInputField: UITextInput?
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return feedItemsForDisplay.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("FlickrFeedItemCell") as UITableViewCell
+        cell.textLabel.text = feedItemsForDisplay[indexPath.row].title
+        cell.detailTextLabel?.text = feedItemsForDisplay[indexPath.row].link
+        
+        return cell
+    }
     
     
-    @IBAction func userTappedTheSearchButton(sender: UIButton) {
+    
+    func makeNewOutboundRequest(queryString query: String) {
         invalidateAnyInFlightRequests()
-        resetUIToSearchingState()
-        composeNewFetchFeedCall()
+        composeNewFetchFeedCall(queryString: query)
         currentFetch?.start()
     }
     
@@ -32,23 +76,25 @@ class FlickrFeedTableViewController: UITableViewController {
         currentFetch?.cancel()
     }
     
-    func composeNewFetchFeedCall() {
-        currentFetch = StandardFlickrFetchFeedCall.fetchFeedCallFor(textInputByUser){self.handleFetchResponse($0, response: $1, error:$2)}
+    func composeNewFetchFeedCall(queryString query: String) {
+        currentFetch = StandardFlickrFetchFeedCall.fetchFeedCallFor(query){self.handleFetchResponse($0, response: $1, error:$2)}
     }
     
     func handleFetchResponse (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void {
-        updateUIToResultsFoundState()
+        dataManager.processPotentialFeedItemCandidates(rawDataResponse: data, completionHandler: {self.refreshDataSource()})
     }
     
-    
-    
-    
-    func resetUIToSearchingState() {
-        
+    func refreshDataSource() {
+        feedItemsForDisplay = dataManager.currentlyImportedFeedItems
+        owningTableView?.reloadData()
+        owningTableViewController?.updateUIToResultsFoundState()
     }
-    
-    func updateUIToResultsFoundState() {
-        
-    }
-    
 }
+
+
+
+
+
+
+
+

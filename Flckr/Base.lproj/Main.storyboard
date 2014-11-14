@@ -26,50 +26,69 @@
         <scene sceneID="Mj8-eu-lqx">
             <objects>
                 <tableViewController id="TsI-sb-2hr" customClass="FlickrFeedTableViewController" customModule="Flckr" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qT1-zc-wuW">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qT1-zc-wuW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="L3E-Yx-EVk">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="64" width="600" height="60"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jRN-hK-siS">
-                                    <rect key="frame" x="562" y="7" width="30" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tag to Retrieve" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5bf-cg-xqB">
+                                    <rect key="frame" x="8" y="16" width="584" height="30"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="FQv-21-iEq"/>
-                                        <constraint firstAttribute="width" constant="30" id="etg-xs-hti"/>
+                                        <constraint firstAttribute="height" constant="30" id="WvZ-aO-1IO"/>
                                     </constraints>
-                                    <state key="normal" title="Go">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
                                     <connections>
-                                        <action selector="userTappedTheSearchButton:" destination="TsI-sb-2hr" eventType="touchUpInside" id="BrJ-Ry-v6E"/>
+                                        <outlet property="delegate" destination="TsI-sb-2hr" id="Te0-pv-uVa"/>
                                     </connections>
-                                </button>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="centerY" secondItem="jRN-hK-siS" secondAttribute="centerY" id="5ff-2c-MiC"/>
-                                <constraint firstAttribute="trailing" secondItem="jRN-hK-siS" secondAttribute="trailing" constant="8" id="rnu-Pw-QwB"/>
+                                <constraint firstAttribute="trailing" secondItem="5bf-cg-xqB" secondAttribute="trailing" constant="8" id="fqp-no-bJP"/>
+                                <constraint firstAttribute="centerY" secondItem="5bf-cg-xqB" secondAttribute="centerY" constant="-1" id="h1m-Xj-scV"/>
+                                <constraint firstItem="5bf-cg-xqB" firstAttribute="leading" secondItem="L3E-Yx-EVk" secondAttribute="leading" constant="8" id="okQ-yA-tOk"/>
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FlickrFeedItemCell" id="VNU-1q-P2W">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FlickrFeedItemCell" textLabel="vmS-DT-BMC" detailTextLabel="0mI-h7-p5b" style="IBUITableViewCellStyleSubtitle" id="VNU-1q-P2W">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VNU-1q-P2W" id="run-Ld-Bmk">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vmS-DT-BMC">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0mI-h7-p5b">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="TsI-sb-2hr" id="E3f-1w-s2a"/>
+                            <outlet property="dataSource" destination="aUO-g7-6ak" id="IGj-gG-TM8"/>
                             <outlet property="delegate" destination="TsI-sb-2hr" id="Loo-HT-79e"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Pure Flickr" id="Otx-nx-Tut"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6R-pP-99J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="aUO-g7-6ak" userLabel="Data Source" customClass="FlickrFeedTableViewDataSource" customModule="Flckr" customModuleProvider="target">
+                    <connections>
+                        <outlet property="owningTableView" destination="qT1-zc-wuW" id="qW4-gY-mfa"/>
+                        <outlet property="owningTableViewController" destination="TsI-sb-2hr" id="Yhc-rh-LrG"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="1225" y="1098"/>
         </scene>
