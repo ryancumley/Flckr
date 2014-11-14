@@ -14,7 +14,7 @@ class FlickrFeedTableViewController: UITableViewController {
     var networkManager = appDelegate.serviceLocator.injectedNetworkManager
     var dataManager = appDelegate.serviceLocator.injectedDataManager
     
-    var currentFetch: ConcreteNetworkFetchOperation?
+    var currentFetch: protocol<NetworkFetchOperation, FlickrFetchOperation>?
     
     var textInputByUser: String = "kittens"
     
@@ -22,12 +22,33 @@ class FlickrFeedTableViewController: UITableViewController {
     
     
     @IBAction func userTappedTheSearchButton(sender: UIButton) {
+        invalidateAnyInFlightRequests()
+        resetUIToSearchingState()
+        composeNewFetchFeedCall()
+        currentFetch?.start()
+    }
+    
+    func invalidateAnyInFlightRequests() {
+        currentFetch?.cancel()
+    }
+    
+    func composeNewFetchFeedCall() {
         currentFetch = StandardFlickrFetchFeedCall.fetchFeedCallFor(textInputByUser){self.handleFetchResponse($0, response: $1, error:$2)}
     }
     
-    
     func handleFetchResponse (data: NSData!, response: NSURLResponse!, error: NSError!) -> Void {
+        updateUIToResultsFoundState()
+    }
     
+    
+    
+    
+    func resetUIToSearchingState() {
+        
+    }
+    
+    func updateUIToResultsFoundState() {
+        
     }
     
 }

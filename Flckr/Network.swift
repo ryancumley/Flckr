@@ -47,7 +47,7 @@ protocol NetworkFetchOperation {
 }
 
 protocol ConcreteNetworkFetchOperation {
-    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> protocol<NetworkFetchOperation, FlickrFetchOperation>
 }
 
 protocol FlickrFetchOperation {
@@ -113,7 +113,7 @@ class StandardFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, 
         format = "json"
     }
     
-    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation {
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> protocol<NetworkFetchOperation, FlickrFetchOperation> {
         let fetchFeedCall = StandardFlickrFetchFeedCall()
         fetchFeedCall.dataTask = fetchFeedCall.dataTaskConfiguredFor(query: query, completionHandler: completionHandler)
         return fetchFeedCall
@@ -139,7 +139,7 @@ class GermanFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, Co
         return "\(basicComposedString)lang=\(language)"
     }
     
-    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation {
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> protocol<NetworkFetchOperation, FlickrFetchOperation> {
         let fetchFeedCall = GermanFlickrFetchFeedCall()
         fetchFeedCall.dataTask = fetchFeedCall.dataTaskConfiguredFor(query: query, completionHandler: completionHandler)
         return fetchFeedCall
