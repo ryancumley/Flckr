@@ -7,13 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 
 
 class NetworkManager: NSObject {
-    var session: NSURLSession = vanillaConfiguredNSURLSession()
-    
-    //func networkOperationUsingRequest(configuredURLRequest request: NSMutableURLRequest) ->
+    let session: NSURLSession = vanillaConfiguredNSURLSession()
 }
 
 func vanillaConfiguredNSURLSession() -> NSURLSession {
@@ -34,11 +33,6 @@ func vanillaConfiguration() -> NSURLSessionConfiguration {
 
 
 
-class NetworkCall: NSObject, NSURLSessionDataDelegate {
-    
-}
-
-
 
 
 
@@ -49,6 +43,11 @@ protocol NetworkFetchOperation {
     func start()
     func finish()
     func cancel()
+    
+}
+
+protocol ConcreteNetworkFetchOperation {
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation
 }
 
 protocol FlickrFetchOperation {
@@ -56,18 +55,17 @@ protocol FlickrFetchOperation {
     var source: String {get}
     var tagMode: String {get}
     var format: String {get}
-    
-    func composedURLStringForQuery(queryString query: String) -> String
-    
 }
 
 class AbstractFetchFeedCall: NSObject, NetworkFetchOperation, FlickrFetchOperation {
     var dataTask: NSURLSessionDataTask?
+    var networkManager = appDelegate.serviceLocator.injectedNetworkManager //'let' would work, but 'var' allows our unit test to swap out a different Network Manager after initialization
     
     var path = "abstract"
     var source = "abstract"
     var tagMode = "abstract"
     var format = "abstract"
+    
     
     func start() {
         dataTask?.resume()
@@ -81,36 +79,74 @@ class AbstractFetchFeedCall: NSObject, NetworkFetchOperation, FlickrFetchOperati
         dataTask?.cancel()
     }
     
-    func composedURLStringForQuery(queryString query: String) -> String {
-        
-        return "http://api.flickr.com/\(path)\(source)tagMode=\(tagMode)&format=\(format)&tags=\(query)"
-        
-                //"http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&tags=balloon"
+    private func composedURLStringForQuery(queryString query: String) -> String {
+        return "\(path)\(source)tagMode=\(tagMode)&format=\(format)&tags=\(query)"
     }
+    
+    private func queryRequestForInput(inputQuery input: String) -> NSMutableURLRequest {
+        if let theURL = NSURL(string: self.composedURLStringForQuery(queryString: input)) {
+            let request = NSMutableURLRequest(URL: theURL)
+            return request
+        }
+        
+        return NSMutableURLRequest() //not the best handling of failed NSURL creation...
+    }
+    
+    private func dataTaskConfiguredFor(#query: String, completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?) -> NSURLSessionDataTask {
+        let request = queryRequestForInput(inputQuery: query)
+        let session = networkManager.session
+        return session.dataTaskWithRequest(request, completionHandler: completionHandler)
+    }
+    
 }
 
-class StandardFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation {
+
+
+class StandardFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, ConcreteNetworkFetchOperation {
     
     override init() {
         super.init()
         
-        path = "services/feeds/"
+        path = "http://api.flickr.com/services/feeds/"
         source = "photos_public.gne?"
         tagMode = "any"
         format = "json"
     }
     
-//    func resourcePathForQuery(inputQuery input: String) -> NSMutableURLRequest {
-//        //let request = NSMutableURLRequest(URL: NSURL.url
-//        
-//    }
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation {
+        let fetchFeedCall = StandardFlickrFetchFeedCall()
+        fetchFeedCall.dataTask = fetchFeedCall.dataTaskConfiguredFor(query: query, completionHandler: completionHandler)
+        return fetchFeedCall
+    }
     
-    func findKittens() { //Dev Testing the functionality
-        let composedURL = composedURLStringForQuery(queryString: "kitten")
+}
+
+class GermanFlickrFetchFeedCall: AbstractFetchFeedCall, FlickrFetchOperation, ConcreteNetworkFetchOperation {
+    
+    var language = "de-de"
+    
+    override init () {
+        super.init()
         
-        println(composedURL)
+        path = "http://api.flickr.com/services/feeds/"
+        source = "photos_public.gne?"
+        tagMode = "any"
+        format = "json"
+    }
+    
+    override func composedURLStringForQuery(queryString query: String) -> String {
+        let basicComposedString = super.composedURLStringForQuery(queryString: query)
+        return "\(basicComposedString)lang=\(language)"
+    }
+    
+    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> ConcreteNetworkFetchOperation {
+        let fetchFeedCall = GermanFlickrFetchFeedCall()
+        fetchFeedCall.dataTask = fetchFeedCall.dataTaskConfiguredFor(query: query, completionHandler: completionHandler)
+        return fetchFeedCall
     }
 }
+
+//class
 
 
 
