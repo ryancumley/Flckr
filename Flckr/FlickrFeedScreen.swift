@@ -80,7 +80,7 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FlickrFeedItemCell") as UITableViewCell
-        cell.textLabel.text = feedItemsForDisplay[indexPath.row].title
+        cell.textLabel?.text = feedItemsForDisplay[indexPath.row].title
         cell.detailTextLabel?.text = feedItemsForDisplay[indexPath.row].link
         
         return cell
