@@ -42,7 +42,7 @@ protocol NetworkFetchOperation {
 }
 
 protocol ConcreteNetworkFetchOperation {
-    class func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> protocol<NetworkFetchOperation, FlickrFetchOperation>
+    static func fetchFeedCallFor(query: String, completionHandler: (NSData!, NSURLResponse!, NSError!) -> Void) -> protocol<NetworkFetchOperation, FlickrFetchOperation>
 }
 
 protocol FlickrFetchOperation {
@@ -54,7 +54,7 @@ protocol FlickrFetchOperation {
 
 class AbstractFetchFeedCall: NSObject, NetworkFetchOperation, FlickrFetchOperation {
     var dataTask: NSURLSessionDataTask?
-    var networkManager = appDelegate.serviceLocator.injectedNetworkManager //'let' would work, but 'var' allows our unit test to swap out a different Network Manager after initialization
+    var networkManager = appDelegate?.serviceLocator.injectedNetworkManager //'let' would work, but 'var' allows our unit test to swap out a different Network Manager after initialization
     
     var path = "abstract"
     var source = "abstract"
@@ -89,7 +89,7 @@ class AbstractFetchFeedCall: NSObject, NetworkFetchOperation, FlickrFetchOperati
     
     private func dataTaskConfiguredFor(#query: String, completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?) -> NSURLSessionDataTask {
         let request = queryRequestForInput(inputQuery: query)
-        let session = networkManager.session
+        let session = networkManager!.session
         return session.dataTaskWithRequest(request, completionHandler: completionHandler)
     }
     

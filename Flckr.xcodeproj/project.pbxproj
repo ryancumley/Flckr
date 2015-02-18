@@ -44,6 +44,7 @@
 		B999D9A41A1536AA00912AC5 /* DataManagement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagement.swift; sourceTree = "<group>"; };
 		B999D9A61A153DED00912AC5 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B999D9A91A1543FF00912AC5 /* FlickrFeedScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrFeedScreen.swift; sourceTree = "<group>"; };
+		F4AA963B1A5C4A680074D887 /* Map and Filter.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = "Map and Filter.playground"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +68,7 @@
 		B999D9731A15326800912AC5 = {
 			isa = PBXGroup;
 			children = (
+				F4AA963B1A5C4A680074D887 /* Map and Filter.playground */,
 				B999D97E1A15326800912AC5 /* Flckr */,
 				B999D9971A15326800912AC5 /* FlckrTests */,
 				B999D97D1A15326800912AC5 /* Products */,
@@ -423,6 +425,7 @@
 				B999D9A01A15326800912AC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B999D9A11A15326800912AC5 /* Build configuration list for PBXNativeTarget "FlckrTests" */ = {
 			isa = XCConfigurationList;
@@ -431,6 +434,7 @@
 				B999D9A31A15326800912AC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

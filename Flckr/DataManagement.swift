@@ -17,7 +17,7 @@ class DataManager: NSObject {
         var serializationError: NSError?
         let parsableData = parsableDataFromRawFlickrData(rawData: data)
         if let foundationRepresentation = NSJSONSerialization.JSONObjectWithData(parsableData, options: NSJSONReadingOptions.AllowFragments, error: &serializationError) as? [String: AnyObject] {
-            if let justTheItems = foundationRepresentation["items"]? as? [[String: AnyObject]] {
+            if let justTheItems = foundationRepresentation["items"] as? [[String: AnyObject]] {
                 for item in justTheItems {
                     let mappedItem = FlickrFeedItem.feedItemByMappingInput(inputDictionary: item)
                     currentlyImportedFeedItems.append(mappedItem)
@@ -76,15 +76,15 @@ class FlickrFeedItem: NSObject {
     class func feedItemByMappingInput(inputDictionary input: [String : AnyObject]) -> FlickrFeedItem {
         var retVal = FlickrFeedItem()
         
-        retVal.title = input["title"]? as? String
-        retVal.link = input["link"]? as? String
-        retVal.media = input["media"]? as? [String : String]
-        if let candidate = input["date_taken"]? as? String { retVal.dateTaken = foundationDateFromFlickrFormatDateString(dateString: candidate) }
-        retVal.photoDescription = input["description"]? as? String
-        if let candidate = input["published"]? as? String { retVal.published = foundationDateFromFlickrFormatDateString(dateString: candidate) }
-        retVal.author = input["author"]? as? String
-        retVal.authorID = input["author_id"]? as? String
-        if let candidate = input["tags"]? as? String { retVal.tags = structuredTagsFrom(tagString: candidate) }
+        retVal.title = input["title"] as? String
+        retVal.link = input["link"] as? String
+        retVal.media = input["media"] as? [String : String]
+        if let candidate = input["date_taken"] as? String { retVal.dateTaken = foundationDateFromFlickrFormatDateString(dateString: candidate) }
+        retVal.photoDescription = input["description"] as? String
+        if let candidate = input["published"] as? String { retVal.published = foundationDateFromFlickrFormatDateString(dateString: candidate) }
+        retVal.author = input["author"] as? String
+        retVal.authorID = input["author_id"] as? String
+        if let candidate = input["tags"] as? String { retVal.tags = structuredTagsFrom(tagString: candidate) }
         
         if let sourceDescription = retVal.photoDescription {
             if let heightWidthTuple = extractHeightAndWidthFromFlickrDescription(descriptionString: sourceDescription) {
@@ -104,7 +104,7 @@ func mediaMDictionaryFromNestedInput(inputDictionary input: [String : String]) -
 
 func foundationDateFromFlickrFormatDateString(dateString date: String) -> NSDate {
     
-    return NSDate.distantFuture() as NSDate
+    return NSDate.distantFuture() as! NSDate
 }
 
 func structuredTagsFrom(tagString tags: String) -> [String] {

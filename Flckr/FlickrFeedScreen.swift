@@ -14,7 +14,7 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
 
     //MARK: Search Input and Execution Handling
     func displayQueryStatusInSectionHeader(#status: String) {
-        (tableView.dataSource as FlickrFeedTableViewDataSource).useThisQueryStatus(status: status)
+        (tableView.dataSource as! FlickrFeedTableViewDataSource).useThisQueryStatus(status: status)
         reloadTableDataOnMainThread()
     }
     
@@ -24,7 +24,7 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     func updateUIToResultsFoundState() {
-        (tableView.dataSource as FlickrFeedTableViewDataSource).useThisQueryStatus(status: "")
+        (tableView.dataSource as! FlickrFeedTableViewDataSource).useThisQueryStatus(status: "")
         reloadTableDataOnMainThread()
     }
     
@@ -32,6 +32,9 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
         dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     
     
@@ -42,9 +45,9 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        if let newQuery = textField.text? {
+        if let newQuery = textField.text {
             resetUIToSearchingState(searchQuery: newQuery)
-            (tableView.dataSource as FlickrFeedTableViewDataSource).makeNewOutboundRequest(queryString: newQuery)
+            (tableView.dataSource as! FlickrFeedTableViewDataSource).makeNewOutboundRequest(queryString: newQuery)
         }
     }
 }
@@ -53,8 +56,8 @@ class FlickrFeedTableViewController: UITableViewController, UITextFieldDelegate 
 
 
 class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
-    var networkManager = appDelegate.serviceLocator.injectedNetworkManager
-    var dataManager = appDelegate.serviceLocator.injectedDataManager
+    var networkManager = appDelegate!.serviceLocator.injectedNetworkManager
+    var dataManager = appDelegate!.serviceLocator.injectedDataManager
     var feedItemsForDisplay = [FlickrFeedItem]()
     var queryStatusString = ""
     
@@ -79,11 +82,11 @@ class FlickrFeedTableViewDataSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FlickrFeedItemCell") as UITableViewCell
-        cell.textLabel?.text = feedItemsForDisplay[indexPath.row].title
-        cell.detailTextLabel?.text = feedItemsForDisplay[indexPath.row].link
+        let cell = tableView.dequeueReusableCellWithIdentifier("FlickrFeedItemCell") as? UITableViewCell
+        cell!.textLabel!.text = feedItemsForDisplay[indexPath.row].title
+        cell!.detailTextLabel!.text = feedItemsForDisplay[indexPath.row].link
         
-        return cell
+        return cell!
     }
     
     
